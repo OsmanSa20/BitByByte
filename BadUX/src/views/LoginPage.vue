@@ -28,8 +28,8 @@ export default defineComponent({
 
 <style scoped>
 
-h1, #input-container {
-  font-family: Comic Sans MS;
+h1, p, #input-container {
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
 } 
 
 #email-input {
