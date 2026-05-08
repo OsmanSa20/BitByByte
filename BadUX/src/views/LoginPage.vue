@@ -15,9 +15,34 @@ const focusEmail = () => {
   // Falls FakeInput intern eine focus-Methode hat, nutzt man fakeEmailRef.value.focus()
   fakeEmailRef.value?.$el?.focus?.() || fakeEmailRef.value?.focus?.()
 }
+const errorSound = new Audio('/BadUX/src/assets/error.mp3')
+
+function playErrorSound() {
+  // Reset damit er bei jedem Hover neu startet
+  errorSound.currentTime = 0
+
+  errorSound.play().catch(() => {
+    // Autoplay blockiert → ignorieren
+  })
+}
 
 const focusPassword = () => {
   fakePasswordRef.value?.$el?.focus?.() || fakePasswordRef.value?.focus?.()
+}
+
+function submitChaos() {
+  const payload = {
+    email: email.value,
+    password: password.value
+  }
+
+  const encoded = btoa(JSON.stringify(payload))
+
+  alert(
+    "⚠️ SYSTEM OVERLOAD ⚠️\n\n" +
+    "Base64 Payload:\n\n" +
+    encoded
+  )
 }
 </script>
 
@@ -75,6 +100,10 @@ const focusPassword = () => {
     />
     <div class="vertical" style="width: 30px;"><p class="vertical">Die Länge ihres Passworts</p> <p>___________</p> </div>
   </div>
+  <button class="chaos-submit" @click="submitChaos" @mouseenter="playErrorSound">
+  Submit
+</button>
+<div @click="() => errorSound.play().then(() => errorSound.pause())"></div>
 </template>
 
 <style scoped>
@@ -152,4 +181,59 @@ h1 {
 .e-input {
   cursor: pointer;
 }
+
+.chaos-submit {
+  font-size: 40px;
+  font-family: "Comic Sans MS", cursive;
+
+  padding: 20px 40px;
+
+  background: linear-gradient(45deg, red, blue, lime, yellow);
+  background-size: 400% 400%;
+
+  border: 10px dotted magenta;
+  border-radius: 50px;
+
+  cursor: pointer;
+
+  animation:
+    rainbow 2s linear infinite,
+    shake 0.5s infinite,
+     rotate 20s 350deg infinite,
+    spin 1s linear infinite;
+   
+
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Regenbogen-Background */
+@keyframes rainbow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Zittern */
+@keyframes shake {
+  0% { transform: translateX(-50%) translate(0px, 0px); }
+  25% { transform: translateX(-50%) translate(3px, -3px); }
+  50% { transform: translateX(-50%) translate(-3px, 3px); }
+  75% { transform: translateX(-50%) translate(3px, 3px); }
+  100% { transform: translateX(-50%) translate(0px, 0px); }
+}
+
+/* langsame Rotation */
+@keyframes spin {
+  0% { filter: hue-rotate(0deg); }
+  100% { filter: hue-rotate(360deg); }
+}
+
+.chaos-submit:hover {
+  transform: scale(1.5) rotate(10deg);
+  background: black;
+  color: white;
+}
+
 </style>
