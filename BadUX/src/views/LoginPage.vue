@@ -5,25 +5,18 @@ import FakeInput from '../components/FakeInput.vue'
 const email = ref('')
 const password = ref('')
 
-// Refs für die Ziel-Komponenten (die schwarzen Boxen)
 const fakeEmailRef = ref(null)
 const fakePasswordRef = ref(null)
 
-// Funktionen zum Weiterleiten des Fokus
 const focusEmail = () => {
-  // .value.$el.focus() wird genutzt, falls FakeInput ein normales Input-Element ist
-  // Falls FakeInput intern eine focus-Methode hat, nutzt man fakeEmailRef.value.focus()
   fakeEmailRef.value?.$el?.focus?.() || fakeEmailRef.value?.focus?.()
 }
+
 const errorSound = new Audio('/BadUX/src/assets/error.mp3')
 
 function playErrorSound() {
-  // Reset damit er bei jedem Hover neu startet
   errorSound.currentTime = 0
-
-  errorSound.play().catch(() => {
-    // Autoplay blockiert → ignorieren
-  })
+  errorSound.play().catch(() => {})
 }
 
 const focusPassword = () => {
@@ -51,78 +44,74 @@ function submitChaos() {
     <h1>Login</h1>
 
     <div id='input-container'>
-            <div id="email-input">
-                <p> Please Input Emeil </p>
-              <input class="e-input-email" type="text" placeholder="Enter E-mail" v-model="email" />
-            </div>
-            <div id="password-input">
-                <p> Please Imput Passwort </p>
-              <input class="e-input-password" name='input' type="password" placeholder="Enter Password" v-model="password" />
-                <span class="e-input-group-icon e-input-popup-date"></span>
-            </div>
+      <div id="email-input">
+        <p> Please Input Emeil </p>
+        <input class="e-input-email" type="text" placeholder="Enter E-mail" v-model="email" />
+      </div>
+
+      <div id="password-input">
+        <p> Please Imput Passwort </p>
+        <input class="e-input-password" name='input' type="password" placeholder="Enter Password" v-model="password" />
+        <span class="e-input-group-icon e-input-popup-date"></span>
+      </div>
+
       <div id="email-input">
         <p> Please Input Email </p>
-        <!-- @focus leitet den Klick sofort weiter -->
-        <input 
-          class="e-input" 
-          type="text" 
-          placeholder="Enter E-mail" 
-          @focus="focusEmail"
-        />
+        <input class="e-input" type="text" placeholder="Enter E-mail" @focus="focusEmail" />
       </div>
+
       <div class="e-input-group">
         <p> Please Input Passwort </p>
-        <input 
-          class="e-input" 
-          name='input' 
-          type="password" 
-          placeholder="Enter Password" 
-          @focus="focusPassword"
-        />
+        <input class="e-input" name='input' type="password" placeholder="Enter Password" @focus="focusPassword" />
       </div>
     </div>
 
-    <!-- Hier vergeben wir die ref-Attribute -->
     <FakeInput
       ref="fakeEmailRef"
       v-model="email"
       placeholder="E-Mail eingeben..."
       type="email"
     />
-    
-    <div style="width: 30px;"><p class="vertical">Die Länge ihres Namens</p> <p>___________</p> </div>
-    
+
+    <div style="width: 30px;">
+      <p class="vertical">Die Länge ihres Namens</p>
+      <p>___________</p>
+    </div>
+
     <FakeInput
       ref="fakePasswordRef"
       v-model="password"
       placeholder="Passwort eingeben..."
       type="password"
     />
-    <div class="vertical" style="width: 30px;"><p class="vertical">Die Länge ihres Passworts</p> <p>___________</p> </div>
+
+    <div class="vertical" style="width: 30px;">
+      <p class="vertical">Die Länge ihres Passworts</p>
+      <p>___________</p>
+    </div>
   </div>
-  <button class="chaos-submit" @click="submitChaos" @mouseenter="playErrorSound">
-  Submit
-</button>
-<div @click="() => errorSound.play().then(() => errorSound.pause())"></div>
+
+  <button
+    class="chaos-submit"
+    @click="submitChaos"
+    @mouseenter="playErrorSound"
+  >
+    Submit
+  </button>
+
+  <div @click="() => errorSound.play().then(() => errorSound.pause())"></div>
 </template>
 
 <style scoped>
-
 @keyframes slideRightAndBack {
-  0% {
-    transform: translateX(-100%);
-  }
-  50% {
-    transform: translateX(100vw);
-  }
-  100% {
-    transform: translateX(-100%);
-  }
+  0% { transform: translateX(-100%); }
+  50% { transform: translateX(100vw); }
+  100% { transform: translateX(-100%); }
 }
 
 h1, p, #input-container {
   font-family: "Comic Sans MS", "Comic Sans", cursive;
-} 
+}
 
 h1 {
   font-size: 150px;
@@ -130,14 +119,13 @@ h1 {
   text-shadow: 2px 2px #ff1493;
   text-align: center;
   margin-left: -7%;
-  
 }
 
 #email-input {
   animation: slideRightAndBack 30s linear infinite;
 }
 
-#email-input , #password-input {
+#email-input, #password-input {
   font-size: 150px;
   color: #333;
 }
@@ -158,26 +146,23 @@ h1 {
   background-color: #443a3a;
   color: #372828;
   margin-bottom: 20px;
-  
 }
 
- .e-input-password {
+.e-input-password {
   font-size: 25px;
   padding: 8px 12px;
   border: 5px solid #231919;
   border-radius: 6px;
   width: 10%;
   background-color: #ff8585;
- }
+}
 
-#vertical{
+#vertical {
   writing-mode: vertical-rl;
   text-orientation: mixed;
   color: #333;
 }
 
-/* Optional: Die weißen Inputs leicht ausgrauen, 
-   da sie nur noch als "Dummy" dienen */
 .e-input {
   cursor: pointer;
 }
@@ -199,23 +184,19 @@ h1 {
   animation:
     rainbow 2s linear infinite,
     shake 0.5s infinite,
-     rotate 20s 350deg infinite,
     spin 1s linear infinite;
-   
 
   position: relative;
   left: 50%;
   transform: translateX(-50%);
 }
 
-/* Regenbogen-Background */
 @keyframes rainbow {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
 
-/* Zittern */
 @keyframes shake {
   0% { transform: translateX(-50%) translate(0px, 0px); }
   25% { transform: translateX(-50%) translate(3px, -3px); }
@@ -224,7 +205,6 @@ h1 {
   100% { transform: translateX(-50%) translate(0px, 0px); }
 }
 
-/* langsame Rotation */
 @keyframes spin {
   0% { filter: hue-rotate(0deg); }
   100% { filter: hue-rotate(360deg); }
@@ -235,5 +215,4 @@ h1 {
   background: black;
   color: white;
 }
-
 </style>
