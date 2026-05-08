@@ -28,11 +28,11 @@ const focusPassword = () => {
     <div id='input-container'>
             <div id="email-input">
                 <p> Please Input Emeil </p>
-                <input class="e-input-email" type="text" placeholder="Enter E-mail" />
+              <input class="e-input-email" type="text" placeholder="Enter E-mail" v-model="email" />
             </div>
             <div id="password-input">
                 <p> Please Imput Passwort </p>
-                <input class="e-input-password" name='input' type="password" placeholder="Enter Password" />
+              <input class="e-input-password" name='input' type="password" placeholder="Enter Password" v-model="password" />
                 <span class="e-input-group-icon e-input-popup-date"></span>
             </div>
       <div id="email-input">
