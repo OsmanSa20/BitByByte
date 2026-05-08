@@ -25,8 +25,8 @@ export default defineComponent({
 </script>
 
 <style scoped>
-h1, .input-container {
-  font-family: Comic Sans;
+h1,p, .input-container {
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
 } 
 
 </style>
